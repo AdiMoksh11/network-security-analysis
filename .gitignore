@@ -1,5 +1,4 @@
 # Virtual environment
-.venv/
 venv/
 
 # Python cache
@@ -16,7 +15,15 @@ Thumbs.db
 # Jupyter checkpoints
 .ipynb_checkpoints/
 
-# Data & models (will refine later)
-*.csv
-*.pt
-*.pth
+# Data files (keep folder structure via .gitkeep, ignore actual data)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Model checkpoints
+models/*
+!models/.gitkeep
+
+# Logs
+logs/*.log
