@@ -222,3 +222,38 @@ if __name__ == "__main__":
     high_corr_pairs = plot_correlation_heatmap(df, FIGURES_DIR / "correlation_heatmap.png")
 
     logger.info("EDA complete.")
+
+
+
+def check_negative_values(df: pd.DataFrame) -> pd.Series:
+    """
+    Identifies columns containing infinite (np.inf or -np.inf) values.
+
+    Why this is separate from checking NaNs:
+        df.isnull() does NOT detect np.inf. Pandas treats infinity as a
+        valid float value, not a missing one. If we only checked for NaN
+        (as we did in Milestone 3), infinite values would silently pass
+        through untouched into preprocessing and training, where they
+        can cause NaN losses or numerical instability in the model.
+
+    Args:
+        df: The DataFrame to check. Only numeric columns are considered.
+
+    Returns:
+        A Series indexed by column name, containing the count of
+        infinite values in each column that has at least one.
+    """
+    numeric_df = df.select_dtypes(include=[np.number])
+
+    # np.isinf() returns a boolean DataFrame the same shape as numeric_df.
+    inf_counts = np.isinf(numeric_df<0).sum()
+    inf_counts = inf_counts[inf_counts > 0]
+
+    if inf_counts.empty:
+        logger.info("No negative values found in any numeric column.")
+    else:
+        logger.warning(f"Negative values found in {len(inf_counts)} column(s):")
+        for column_name, count in inf_counts.items():
+            logger.warning(f"  {column_name}: {count} negative values")
+
+    return inf_counts
