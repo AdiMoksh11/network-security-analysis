@@ -1,0 +1,3 @@
+# Generated reports/figures
+reports/figures/*
+!reports/figures/.gitkeep
