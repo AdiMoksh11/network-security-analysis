@@ -47,6 +47,9 @@ LOGS_DIR: Path = BASE_DIR / "logs"
 # comparing experiments fairly.
 RANDOM_SEED: int = 42
 
+TEST_SIZE: float = 0.2
+print(f"TEST_SIZE: {TEST_SIZE}")
+
 # -----------------------------------------------------------------------
 # ENSURE DIRECTORIES EXIST
 # -----------------------------------------------------------------------
